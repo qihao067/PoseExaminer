@@ -5,9 +5,7 @@ __________
 <img src="fig/fig1.jpg" alt="fig1" style="zoom:20%;" />
 
 #### [PoseExaminer: Automated Testing of Out-of-Distribution Robustness in Human Pose and Shape Estimation](https://arxiv.org/pdf/2303.07337.pdf) 
-
 #### CVPR2023
-
 #### [Qihao Liu](https://qihao067.github.io/) | [Adam Kortylewski](https://gvrl.mpi-inf.mpg.de/) | [Alan Yuille](https://cogsci.jhu.edu/directory/alan-yuille/) 
 
 This repository contains the code and model of [PoseExaminer](https://arxiv.org/pdf/2303.07337.pdf). It is built on [MMHuman3D](https://github.com/open-mmlab/mmhuman3d) to be able to be applied to different methods. By following the introduction, you will be able to run our adversarial examiner on any human pose and shape estimation method (e.g. [PARE](https://pare.is.tue.mpg.de/)). Then, you can improve the model's performance by fine-tuning it on the identified failure modes (e.g., the released code improves PARE from 81.81 to 73.65 MPJPE on the 3DPW dataset). More coming soon.
