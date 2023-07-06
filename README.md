@@ -2,7 +2,7 @@
 
 __________
 
-<img src="fig/fig1.jpg" alt="fig1" style="zoom:10%;" />
+<img src="fig/fig1.jpg" alt="fig1" style="zoom:20%;" />
 
 #### [PoseExaminer: Automated Testing of Out-of-Distribution Robustness in Human Pose and Shape Estimation](https://arxiv.org/pdf/2303.07337.pdf) 
 
