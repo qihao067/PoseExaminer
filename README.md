@@ -108,12 +108,12 @@ You can evaluate the model we provide using `test.sh`:
 bash test.sh
 ```
 
-We released our model here. Please download the model and put it to this path (`[PoseExaminer/Methods/PARE/ours](PoseExaminer/Methods/PARE/ours)`) to run evaluation.
+We released our model here. Please download the model and put it to this path ([`PoseExaminer/Methods/PARE/ours`](PoseExaminer/Methods/PARE/ours)) to run evaluation. The models are tested on the 3DPW dataset.
 
-|                            | MPJPE (on 3DPW) | PA-MPJPE (on 3DPW) | PVE (on 3DPW) | Download                                                     |
-| -------------------------- | --------------- | ------------------ | ------------- | ------------------------------------------------------------ |
-| PARE (Original)            | 81.81           | 50.78              | 102.27        | [Model](https://openmmlab-share.oss-cn-hangzhou.aliyuncs.com/mmhuman3d/models/pare/without_mosh/hrnet_w32_conv_pare.pth?versionId=CAEQOhiBgMCi4YbVgxgiIDgzYzFhMWNlNDE2NTQwN2ZiOTQ1ZGJmYTM4OTNmYWY5) |
-| PARE + PoseExaminer (Ours) | 73.65           | 47.25              | 91.29         | [Model](https://drive.google.com/drive/folders/1gRTey3_TpwjMV1HVzNKamjgcv643kLFh?usp=sharing) |
+|                            | MPJPE | PA-MPJPE | PVE    | Download                                                     |
+| -------------------------- | ----- | -------- | ------ | ------------------------------------------------------------ |
+| PARE (Original)            | 81.81 | 50.78    | 102.27 | [Model](https://openmmlab-share.oss-cn-hangzhou.aliyuncs.com/mmhuman3d/models/pare/without_mosh/hrnet_w32_conv_pare.pth?versionId=CAEQOhiBgMCi4YbVgxgiIDgzYzFhMWNlNDE2NTQwN2ZiOTQ1ZGJmYTM4OTNmYWY5) |
+| PARE + PoseExaminer (Ours) | 73.65 | 47.25    | 91.29  | [Model](https://drive.google.com/drive/folders/1gRTey3_TpwjMV1HVzNKamjgcv643kLFh?usp=sharing) |
 
 ______
 
