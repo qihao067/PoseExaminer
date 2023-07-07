@@ -1,7 +1,5 @@
 # PoseExaminer (CVPR2023)
 
-__________
-
 <img src="fig/fig1.jpg" alt="fig1" style="zoom:20%;" />
 
 #### [PoseExaminer: Automated Testing of Out-of-Distribution Robustness in Human Pose and Shape Estimation](https://arxiv.org/pdf/2303.07337.pdf) 
@@ -11,6 +9,8 @@ __________
 This repository contains the code and model of [PoseExaminer](https://arxiv.org/pdf/2303.07337.pdf). It is built on [MMHuman3D](https://github.com/open-mmlab/mmhuman3d) to be able to be applied to different methods. By following the introduction, you will be able to run our adversarial examiner on any human pose and shape estimation method (e.g. [PARE](https://pare.is.tue.mpg.de/)). Then, you can improve the model's performance by fine-tuning it on the identified failure modes (e.g., the released code improves PARE from 81.81 to 73.65 MPJPE on the 3DPW dataset). More coming soon.
 
 ______
+
+
 
 ## Requirements
 
@@ -39,11 +39,105 @@ cd ../..
 
 ________
 
+
+
 ## Data & Model Preparation
 
-1. Download official pertained [PARE model](https://openmmlab-share.oss-cn-hangzhou.aliyuncs.com/mmhuman3d/models/pare/without_mosh/hrnet_w32_conv_pare.pth?versionId=CAEQOhiBgMCi4YbVgxgiIDgzYzFhMWNlNDE2NTQwN2ZiOTQ1ZGJmYTM4OTNmYWY5) to 
+1. Download original pertained [PARE model](https://openmmlab-share.oss-cn-hangzhou.aliyuncs.com/mmhuman3d/models/pare/without_mosh/hrnet_w32_conv_pare.pth?versionId=CAEQOhiBgMCi4YbVgxgiIDgzYzFhMWNlNDE2NTQwN2ZiOTQ1ZGJmYTM4OTNmYWY5) to path [`PoseExaminer/Methods/PARE/master/`](https://github.com/qihao067/PoseExaminer/tree/main/Methods/PARE/master)
+
+2. Download the human body model and other resources following this [page](https://github.com/open-mmlab/mmhuman3d/tree/main/configs/pare) in MMHuman3D, and put them to this path: [`PoseExaminer/data`](https://github.com/qihao067/PoseExaminer/tree/main/data)
+
+3. Download the human body model used for [VPoser](https://github.com/nghorbani/human_body_prior/) from this [page](https://smpl-x.is.tue.mpg.de/), and put them to this path: [`PoseExaminer/utils_PoseExaminer/support_data/dowloads`](PoseExaminer/utils_PoseExaminer/support_data/dowloads)
+
+4. Prepare the training data for PARE following this [page](https://github.com/open-mmlab/mmhuman3d/blob/main/docs/preprocess_dataset.md) in MMHuman3D. You only need to download the data for PARE to run the code in this repo.
+
+   
+
+   ##### Finally, you should have the following file structure to run our code:
+
+   ```
+   PoseExaminer   
+       ├── configs
+       ├── data
+       │   ├── body_models                                   # should be the same as in MMHuman3D
+       │   ├── preprocessed_datasets                         # should be the same as in MMHuman3D
+       │   ├── pretrained_models                             # should be the same as in MMHuman3D
+       │   ├── datasets                                      # should be the same as in MMHuman3D
+       │   │   ├── coco
+       │   │   ├── h36m
+       │   │   └── ...
+       │   └── gmm_08.pkl
+       ├── Methods
+       │   └── PARE
+       │   │   ├── master
+       │   │   │   └── hrnet_w32_conv_pare.pth               # The original PARE checkpoint
+       │   │   ├── ours
+       │   │   │   └── exp_best_pare.pth                     # The checkpoint after training with PoseExaminer. It is only needed to run `test.sh`
+       ├── mmhuman3d
+       ├── third_party
+       ├── tools
+       ├── utils_PoseExaminer
+       │   ├── data_generated
+       │   ├── models
+       │   ├── support_data
+       │   │   ├── uv_bk_map
+       │   │   ├── dowloads                                  # All can be downloaded from VPoser
+       │   │   │   ├── models
+       │   │   │   │   ├── smpl
+       │   │   │   │   │   ├── basicmodel_m_lbs_10_207_0_v1.0.0_lqh.npz
+       │   │   │   │   │   ├── basicmodel_m_lbs_10_207_0_v1.0.0.pkl
+       │   │   │   │   ├── smplx
+       │   │   │   │   │   ├── female
+       │   │   │   │   │   ├── male
+       │   │   │   │   │   ├── neutral
+       │   │   │   ├── vposer_v2_05
+       │   │   │   └── amass_sample.npz
+       ├── train.sh
+       └── test.sh
+   ```
 
 ____________
+
+
+
+## Evaluation
+
+You can evaluate the model we provide using `test.sh`:
+
+```
+bash test.sh
+```
+
+We released our model here. Please download the model and put it to this path (`[PoseExaminer/Methods/PARE/ours](PoseExaminer/Methods/PARE/ours)`) to run evaluation.
+
+|                            | MPJPE (on 3DPW) | PA-MPJPE (on 3DPW) | PVE (on 3DPW) | Download                                                     |
+| -------------------------- | --------------- | ------------------ | ------------- | ------------------------------------------------------------ |
+| PARE (Original)            | 81.81           | 50.78              | 102.27        | [Model](https://openmmlab-share.oss-cn-hangzhou.aliyuncs.com/mmhuman3d/models/pare/without_mosh/hrnet_w32_conv_pare.pth?versionId=CAEQOhiBgMCi4YbVgxgiIDgzYzFhMWNlNDE2NTQwN2ZiOTQ1ZGJmYTM4OTNmYWY5) |
+| PARE + PoseExaminer (Ours) | 73.65           | 47.25              | 91.29         | [Model](https://drive.google.com/drive/folders/1gRTey3_TpwjMV1HVzNKamjgcv643kLFh?usp=sharing) |
+
+______
+
+
+
+## Adversarial Examination and Train with PoseExaminer
+
+By running the `train.sh`, you will first run the PoseExmainer on PARE to search for the failure modes with 40 agents, and then train the PARE mode with the discovered failure cases (i.e., reproduce the results we reported). We will repeat the entire process for 5 times. All intermediate results and checkpoints will be saved in `ROOTNAME` (see `train.sh`). 
+
+```
+bash train.sh
+```
+
+The `train.sh` file will do the following five things:
+
+1. Run PoseExaminer on a given model (Adversarial examination on current model)
+2. Sample 40*500 failure cases for training
+3. Train the model (Train PARE)
+4. Test the trained model on 3DPW
+5. Save all intermetiate results (checkpoints, failure modes, generated training images, results, etc).
+
+______
+
+
 
 ## Notes
 
@@ -62,11 +156,15 @@ ____________
 
 ____________
 
+
+
 ## License
 
 The code in this repository is released under the MIT License. [MMHuman3D](https://github.com/open-mmlab/mmhuman3d) is released under the [Apache 2.0 license](https://github.com/open-mmlab/mmhuman3d/blob/main/LICENSE). Some supported methods may carry [additional licenses](https://github.com/open-mmlab/mmhuman3d/blob/main/docs/additional_licenses.md).
 
 _____________
+
+
 
 ## BibTeX
 
