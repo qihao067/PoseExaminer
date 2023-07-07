@@ -6,7 +6,7 @@
 #### CVPR2023
 #### [Qihao Liu](https://qihao067.github.io/) | [Adam Kortylewski](https://gvrl.mpi-inf.mpg.de/) | [Alan Yuille](https://cogsci.jhu.edu/directory/alan-yuille/) 
 
-This repository contains the code and model of [PoseExaminer](https://arxiv.org/pdf/2303.07337.pdf). It is built on [MMHuman3D](https://github.com/open-mmlab/mmhuman3d) to be able to be applied to different methods. By following the introduction, you will be able to run our adversarial examiner on any human pose and shape estimation method (e.g. [PARE](https://pare.is.tue.mpg.de/)). Then, you can improve the model's performance by fine-tuning it on the identified failure modes (e.g., the released code improves PARE from 81.81 to 73.65 MPJPE on the 3DPW dataset). More coming soon.
+This repository contains the code and model of [PoseExaminer](https://arxiv.org/pdf/2303.07337.pdf). It is built on [MMHuman3D](https://github.com/open-mmlab/mmhuman3d) to be compatible with various human pose and shape (HPS) estimation methods. By following the instructions provided, you will be able to run our adversarial examiner on any HPS method (e.g. [PARE](https://pare.is.tue.mpg.de/)). Then, you can improve the model's performance by fine-tuning it on the failure modes (e.g., the released code improves PARE from 81.81 to 73.65 MPJPE on the 3DPW dataset). More coming soon.
 
 ______
 
@@ -43,13 +43,13 @@ ________
 
 ## Data & Model Preparation
 
-1. Download original pertained [PARE model](https://openmmlab-share.oss-cn-hangzhou.aliyuncs.com/mmhuman3d/models/pare/without_mosh/hrnet_w32_conv_pare.pth?versionId=CAEQOhiBgMCi4YbVgxgiIDgzYzFhMWNlNDE2NTQwN2ZiOTQ1ZGJmYTM4OTNmYWY5) to path [`PoseExaminer/Methods/PARE/master/`](https://github.com/qihao067/PoseExaminer/tree/main/Methods/PARE/master)
+1. Download the original pertained [PARE model](https://openmmlab-share.oss-cn-hangzhou.aliyuncs.com/mmhuman3d/models/pare/without_mosh/hrnet_w32_conv_pare.pth?versionId=CAEQOhiBgMCi4YbVgxgiIDgzYzFhMWNlNDE2NTQwN2ZiOTQ1ZGJmYTM4OTNmYWY5) to this path [`PoseExaminer/Methods/PARE/master/`](https://github.com/qihao067/PoseExaminer/tree/main/Methods/PARE/master)
 
 2. Download the human body model and other resources following this [page](https://github.com/open-mmlab/mmhuman3d/tree/main/configs/pare) in MMHuman3D, and put them to this path: [`PoseExaminer/data`](https://github.com/qihao067/PoseExaminer/tree/main/data)
 
 3. Download the human body model used for [VPoser](https://github.com/nghorbani/human_body_prior/) from this [page](https://smpl-x.is.tue.mpg.de/), and put them to this path: [`PoseExaminer/utils_PoseExaminer/support_data/dowloads`](PoseExaminer/utils_PoseExaminer/support_data/dowloads)
 
-4. Prepare the training data for PARE following this [page](https://github.com/open-mmlab/mmhuman3d/blob/main/docs/preprocess_dataset.md) in MMHuman3D. You only need to download the data for PARE to run the code in this repo.
+4. Prepare the training data for PARE following this [page](https://github.com/open-mmlab/mmhuman3d/blob/main/docs/preprocess_dataset.md) in MMHuman3D. You only need to download the data for PARE to run the code in this repo. If you only want to evaluate our model, you can just download the 3DPW dataset.
 
    
 
@@ -69,29 +69,29 @@ ________
        │   └── gmm_08.pkl
        ├── Methods
        │   └── PARE
-       │   │   ├── master
-       │   │   │   └── hrnet_w32_conv_pare.pth               # The original PARE checkpoint
-       │   │   ├── ours
-       │   │   │   └── exp_best_pare.pth                     # The checkpoint after training with PoseExaminer. It is only needed to run `test.sh`
+       │       ├── master
+       │       │   └── hrnet_w32_conv_pare.pth               # The original PARE checkpoint
+       │       └── ours
+       │           └── exp_best_pare.pth                     # The checkpoint after training with PoseExaminer. It is only needed to run `test.sh`
        ├── mmhuman3d
        ├── third_party
        ├── tools
        ├── utils_PoseExaminer
        │   ├── data_generated
        │   ├── models
-       │   ├── support_data
-       │   │   ├── uv_bk_map
-       │   │   ├── dowloads                                  # All can be downloaded from VPoser
-       │   │   │   ├── models
-       │   │   │   │   ├── smpl
-       │   │   │   │   │   ├── basicmodel_m_lbs_10_207_0_v1.0.0_lqh.npz
-       │   │   │   │   │   ├── basicmodel_m_lbs_10_207_0_v1.0.0.pkl
-       │   │   │   │   ├── smplx
-       │   │   │   │   │   ├── female
-       │   │   │   │   │   ├── male
-       │   │   │   │   │   ├── neutral
-       │   │   │   ├── vposer_v2_05
-       │   │   │   └── amass_sample.npz
+       │   └── support_data
+       │       ├── uv_bk_map
+       │       └── dowloads                                  # All can be downloaded from VPoser
+       │           ├── models
+       │           │   ├── smpl
+       │           │   │   ├── basicmodel_m_lbs_10_207_0_v1.0.0_lqh.npz
+       │           │   │   └── basicmodel_m_lbs_10_207_0_v1.0.0.pkl
+       │           │   └── smplx
+       │           │       ├── female
+       │           │       ├── male
+       │           │       └── neutral
+       │           ├── vposer_v2_05
+       │           └── amass_sample.npz
        ├── train.sh
        └── test.sh
    ```
@@ -121,7 +121,7 @@ ______
 
 ## Adversarial Examination and Train with PoseExaminer
 
-By running the `train.sh`, you will first run the PoseExmainer on PARE to search for the failure modes with 40 agents, and then train the PARE mode with the discovered failure cases (i.e., reproduce the results we reported). We will repeat the entire process for 5 times. All intermediate results and checkpoints will be saved in `ROOTNAME` (see `train.sh`). 
+By running the `train.sh`, you will first run the PoseExmainer on PARE to search for the failure modes with 40 agents, and then fine-tune the PARE mode with the discovered failure cases (i.e., reproduce the results we reported). We repeat the entire process for 5 times. All intermediate results and checkpoints will be saved in `ROOTNAME` (see `train.sh`). 
 
 ```
 bash train.sh
