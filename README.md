@@ -119,7 +119,7 @@ ______
 
 
 
-## Adversarial Examination and Train with PoseExaminer
+## Adversarial Examination and Training with PoseExaminer
 
 By running the `train.sh`, you will first run the PoseExmainer on PARE to search for the failure modes with 40 agents, and then fine-tune the PARE mode with the discovered failure cases (i.e., reproduce the results we reported). We repeat the entire process for 5 times. All intermediate results and checkpoints will be saved in `ROOTNAME` (see `train.sh`). 
 
@@ -141,7 +141,7 @@ ______
 
 ## Notes
 
-1. Our code release exclusively focuses on the articulated pose. By following the instructions, you should be able to conduct a comprehensive evaluation of the SOTA method (i.e., PARE) and enhance its performance on the 3DPW dataset from the reported 81.81 to 73.65, following approximately 10 hours of training. This improvement slightly surpasses the number reported in the original research paper (74.44 MPJPE).
+1. Our code release exclusively focuses on the articulated pose. By following the instructions, you should be able to conduct a comprehensive evaluation of the SOTA method (i.e., PARE) and enhance its performance on the 3DPW dataset from the reported 81.81 to 73.65, following approximately 10 hours of training. This improvement slightly surpasses the number reported in our CVPR paper (74.44 MPJPE).
 
 2. 
    Since the synthetic training data depends on the failure modes identified by the PoseExaminer, and we disable the loss function for policy distance, the results may vary to some degree. When releasing the code, we conducted the experiment ten times, and we achieved an average MPJPE of 75.40 on the 3DPW dataset. If the obtained result falls short of your expectations, you can simply rerun the experiment
